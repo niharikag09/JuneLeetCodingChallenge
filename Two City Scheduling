@@ -1,0 +1,54 @@
+/*
+There are 2N people a company is planning to interview. The cost of flying the i-th person to city A is costs[i][0], and the cost of flying the i-th person to city B is costs[i][1].
+
+Return the minimum cost to fly every person to a city such that exactly N people arrive in each city.
+
+Example 1:
+
+Input: [[10,20],[30,200],[400,50],[30,20]]
+Output: 110
+Explanation: 
+The first person goes to city A for a cost of 10.
+The second person goes to city A for a cost of 30.
+The third person goes to city B for a cost of 50.
+The fourth person goes to city B for a cost of 20.
+
+The total minimum cost is 10 + 30 + 50 + 20 = 110 to have half the people interviewing in each city.
+ 
+
+Note:
+
+1 <= costs.length <= 100
+It is guaranteed that costs.length is even.
+1 <= costs[i][0], costs[i][1] <= 1000
+*/
+
+class Solution {
+    
+    public int twoCitySchedCost(int[][] costs) {
+        int len=costs.length;
+        int N=len/2;
+        HashMap<String, Integer> cache=new HashMap<>();
+        return minCost(0,N,N,costs,cache);
+    }
+    
+    int minCost(int index, int allowedInA, int allowedInB, int[][] costs, HashMap<String, Integer> cache){
+        
+        if(index>=costs.length) return 0;
+        
+        String cacheKey = index + "-" + allowedInA + "-" + allowedInB;
+        if(cache.containsKey(cacheKey)) return cache.get(cacheKey);
+        
+        int costToSendInA=Integer.MAX_VALUE, costToSendInB=Integer.MAX_VALUE;
+        //int allowedInB = costs.length - index - allowedInA;
+        
+        if(allowedInA>0)
+        costToSendInA = costs[index][0] + minCost(index+1, allowedInA-1, allowedInB, costs, cache);
+        
+        if(allowedInB>0)
+        costToSendInB = costs[index][1] + minCost(index+1, allowedInA, allowedInB-1, costs, cache);
+        
+        cache.put(cacheKey, Math.min(costToSendInA,costToSendInB));
+        return cache.get(cacheKey);
+    }
+}
