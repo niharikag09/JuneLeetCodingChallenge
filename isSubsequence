@@ -23,3 +23,28 @@ Constraints:
 0 <= t.length <= 10^4
 Both strings consists only of lowercase characters.
 */
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        
+        if(s.length()==0) return true;
+        if(t.length()==0 || s.length()>t.length()) return false;
+        
+        return checkSub(s, 0, t,0);
+    }
+    
+    boolean checkSub(String s, int sIndex, String t, int tIndex){
+        
+        if(sIndex >= s.length()) return true;
+        if(tIndex >= t.length()) return false;
+        
+        boolean match=false, nomatch=false;
+        if(s.charAt(sIndex)==t.charAt(tIndex)) {
+            match=checkSub(s, sIndex+1, t, tIndex+1);
+        }
+        else{
+            nomatch=checkSub(s, sIndex, t, tIndex+1);
+        } 
+        
+        return match || nomatch;
+    }
+}
