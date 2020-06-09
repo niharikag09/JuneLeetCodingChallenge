@@ -19,7 +19,6 @@ Input: s = "axc", t = "ahbgdc"
 Output: false
  
 Constraints:
-
 0 <= s.length <= 100
 0 <= t.length <= 10^4
 Both strings consists only of lowercase characters.
