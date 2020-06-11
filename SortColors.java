@@ -21,28 +21,21 @@ class Solution {
         
         int low=0;
         int high=nums.length-1;
+        int index=0;
         
-        while(low<high){
+        while(index<=high && low<high){
             
-            if(nums[low]==0) low++;
-            if(nums[high]==2) high--;
-            if(nums[low]==1 && nums[high]==1){
-                int i=low+1;
-
-                while(i<high && nums[i]==1){
-                    i++;
-                }
-                
-                if(i>=high) break;
-                else{
-                    if(nums[i]==0) swap(nums, low, i);
-                    else swap(nums,high,i);
-                }
-                
+            if(nums[index]==2){
+                swap(nums,index, high);
+                high--;
             }
-            else if(low<high) swap(nums,low,high);
-            
-            }            
+            else if(nums[index]==0){
+                swap(nums,index,low);
+                low++;
+                index++;
+            }
+            else index++;
+        }
     }
     
     public void swap(int[] nums, int i, int j){
@@ -50,6 +43,5 @@ class Solution {
         int temp=nums[i];
         nums[i]=nums[j];
         nums[j]=temp;
-        
     }
 }
